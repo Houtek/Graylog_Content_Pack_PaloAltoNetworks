@@ -1,0 +1,35 @@
+{
+  "extractors": [
+    {
+      "title": "PAN_TRAFFIC",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{IPORHOST:source} +:* *%{BASE10NUM:Domain},%{DATA:LoggedDate;date;yyyy/MM/dd HH:mm:ss},%{NOTCOMMA:SerialNumber},%{NOTCOMMA:Type},%{NOTCOMMA:Subtype},%{NOTCOMMA:ConfigVersion},%{DATA:EventDate;date;yyyy/MM/dd HH:mm:ss},%{IP:SourceIP},%{IP:DestinationIP},(%{IP:NATSourceIP})?,(%{IP:NATDestinationIP})?,%{NOTCOMMA:RuleName},(%{NOTCOMMA:SourceUser})?,(%{NOTCOMMA:DestinationUser})?,(%{NOTCOMMA:Application})?,%{NOTCOMMA:VirtualSystem},%{NOTCOMMA:SourceZone},%{NOTCOMMA:DestinationZone},%{NOTCOMMA:IngressInterface},(%{NOTCOMMA:EgressInterface})?,%{NOTCOMMA:LogForwardingProfile},%{NOTCOMMA:UNWANTED},%{BASE10NUM:SessionID},%{BASE10NUM:RepeatCount},(%{BASE10NUM:SourcePort})?,(%{BASE10NUM:DestinationPort})?,(%{BASE10NUM:NATSourcePort})?,(%{BASE10NUM:NATDestinationPort})?,%{NOTCOMMA:Flags},%{NOTCOMMA:Protocol},%{NOTCOMMA:Action},%{BASE10NUM:Bytes;long},%{BASE10NUM:BytesSent;long},%{BASE10NUM:BytesReceived;long},%{BASE10NUM:Packets;long},%{DATA:StartDate;date;yyyy/MM/dd HH:mm:ss},%{BASE10NUM:ElapsedTime},%{NOTCOMMA:Category},%{NOTCOMMA:UNWANTED},%{BASE10NUM:Sequence},%{NOTCOMMA:ActionFlags},(%{NOTCOMMA:SourceLocation})?,(%{NOTCOMMA:DestinationLocation}),(%{BASE10NUM:UNWANTED})?,%{BASE10NUM:PktsSent;long},%{BASE10NUM:PktsReceived;long},(%{NOTCOMMA:SessionEndReason})?.*",
+        "named_captures_only": true
+      },
+      "condition_type": "regex",
+      "condition_value": "^(.*,TRAFFIC,.*)"
+    },
+    {
+      "title": "PAN_SYSTEM",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{IPORHOST:source} +:* *%{BASE10NUM:Domain},%{DATA:LoggedDate;date;yyyy/MM/dd HH:mm:ss},%{NOTCOMMA:SerialNumber},%{NOTCOMMA:Type},%{NOTCOMMA:Subtype},%{BASE10NUM:ConfigVersion},%{DATA:EventDate;date;yyyy/MM/dd HH:mm:ss},(%{NOTCOMMA:VirtualSystem})?,%{NOTCOMMA:Event},(%{NOTCOMMA:Object})?,(%{NOTCOMMA:FMT})?,(%{NOTCOMMA:ID})?,(%{NOTCOMMA:Module})?,%{NOTCOMMA:Severity},%{QSORNC:Description},%{NOTCOMMA:Sequence},%{NOTCOMMA:ActionFlags}.*",
+        "named_captures_only": true
+      },
+      "condition_type": "regex",
+      "condition_value": "^(.*,SYSTEM,.*)"
+    }
+  ],
+  "version": "2.3.2"
+}
